@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart - ANOXITOP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: #f8f8f8;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background: white;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo {
+            font-size: clamp(22px, 4vw, 28px);
+            font-weight: 700;
+            color: #e63946;
+            letter-spacing: 1px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 10px;
+        }
+        
+        nav ul li {
+            position: relative;
+        }
+        
+        nav ul li a {
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: clamp(14px, 2vw, 16px);
+            padding: 5px 10px;
+        }
+        
+        nav ul li a:hover {
+            color: #e63946;
+        }
+        
+        .header-icons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .header-icons a {
+            color: #333;
+            transition: color 0.3s;
+        }
+        
+        .header-icons a:hover {
+            color: #e63946;
+        }
+        
+        .header-icons i {
+            font-size: clamp(18px, 3vw, 20px);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .header-icons i:hover {
+            color: #e63946;
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        /* Cart Page Styles */
+        .cart-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 5%;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .cart-title {
+            font-size: clamp(24px, 4vw, 32px);
+            color: #333;
+        }
+
+        .continue-shopping {
+            color: #e63946;
+            font-weight: 500;
+            font-size: clamp(14px, 2vw, 16px);
+        }
+
+        .cart-items {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-image {
+            width: clamp(100px, 25vw, 120px);
+            height: clamp(100px, 25vw, 120px);
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+        }
+
+        .item-details {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .item-title {
+            font-size: clamp(16px, 2vw, 18px);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .item-price {
+            color: #e63946;
+            font-weight: 700;
+            font-size: clamp(16px, 2vw, 18px);
+            margin-bottom: 10px;
+        }
+
+        .item-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            background: #f1f1f1;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .quantity-input {
+            width: 50px;
+            text-align: center;
+            margin: 0 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 5px;
+            font-size: clamp(14px, 2vw, 16px);
+        }
+
+        .remove-item {
+            color: #999;
+            cursor: pointer;
+            font-size: clamp(14px, 2vw, 16px);
+            transition: color 0.3s;
+        }
+
+        .remove-item:hover {
+            color: #e63946;
+        }
+
+        .cart-summary {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+
+        .summary-title {
+            font-size: clamp(20px, 3vw, 24px);
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            font-size: clamp(14px, 2vw, 16px);
+        }
+
+        .total-row {
+            font-weight: 700;
+            font-size: clamp(16px, 2.5vw, 20px);
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 15px;
+            background: #e63946;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: clamp(14px, 2vw, 16px);
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .checkout-btn:hover {
+            background: #c1121f;
+            transform: translateY(-2px);
+        }
+
+        /* Empty Cart State */
+        .empty-cart {
+            text-align: center;
+            padding: 60px 0;
+        }
+
+        .empty-cart i {
+            font-size: 60px;
+            color: #e63946;
+            margin-bottom: 20px;
+        }
+
+        .empty-cart h2 {
+            font-size: clamp(22px, 4vw, 28px);
+            margin-bottom: 15px;
+        }
+
+        .empty-cart p {
+            color: #666;
+            margin-bottom: 30px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: clamp(14px, 2vw, 16px);
+        }
+
+        .shop-now-btn {
+            padding: 12px 30px;
+            background: #e63946;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: clamp(14px, 2vw, 16px);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .shop-now-btn:hover {
+            background: #c1121f;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                flex-wrap: wrap;
+                padding: 15px;
+            }
+            
+            .menu-toggle {
+                display: block;
+                order: 1;
+            }
+            
+            .logo {
+                order: 2;
+                flex: 1;
+                text-align: center;
+            }
+            
+            .header-icons {
+                order: 3;
+            }
+            
+            nav {
+                order: 4;
+                width: 100%;
+                margin-top: 15px;
+                display: none;
+            }
+            
+            nav.active {
+                display: block;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .cart-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .continue-shopping {
+                margin-top: 0;
+            }
+
+            .item-details {
+                min-width: 100%;
+            }
+
+            .item-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        <a href="index.html" class="logo">ANOXITOP</a>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#">Shop</a></li>
+                <li><a href="#">Categories</a></li>
+            </ul>
+        </nav>
+        <div class="header-icons">
+            <i class="fas fa-search"></i>
+            <a href="cart.html"><i class="fas fa-shopping-bag"></i></a>
+        </div>
+    </header>
+
+    <!-- Cart Content -->
+    <div class="cart-container">
+        <div class="cart-header">
+            <h1 class="cart-title">Your Shopping Cart</h1>
+            <a href="index.html" class="continue-shopping">← Continue Shopping</a>
+        </div>
+        
+        <div class="cart-items">
+            <div class="cart-item">
+                <div class="item-image" style="background-image: url('https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-4.0.3');"></div>
+                <div class="item-details">
+                    <h3 class="item-title">Premium Denim Jacket</h3>
+                    <p class="item-price">PKR 2,499</p>
+                    <div class="item-actions">
+                        <div class="quantity-control">
+                            <button class="quantity-btn">-</button>
+                            <input type="number" class="quantity-input" value="1" min="1">
+                            <button class="quantity-btn">+</button>
+                        </div>
+                        <span class="remove-item">Remove</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cart-item">
+                <div class="item-image" style="background-image: url('https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?ixlib=rb-4.0.3');"></div>
+                <div class="item-details">
+                    <h3 class="item-title">Casual T-Shirt</h3>
+                    <p class="item-price">PKR 999</p>
+                    <div class="item-actions">
+                        <div class="quantity-control">
+                            <button class="quantity-btn">-</button>
+                            <input type="number" class="quantity-input" value="2" min="1">
+                            <button class="quantity-btn">+</button>
+                        </div>
+                        <span class="remove-item">Remove</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cart-summary">
+            <h3 class="summary-title">Order Summary</h3>
+            <div class="summary-row">
+                <span>Subtotal (2 items)</span>
+                <span>PKR 3,498</span>
+            </div>
+            <div class="summary-row">
+                <span>Shipping</span>
+                <span>PKR 200</span>
+            </div>
+            <div class="summary-row">
+                <span>Tax</span>
+                <span>PKR 350</span>
+            </div>
+            <div class="summary-row total-row">
+                <span>Total</span>
+                <span>PKR 4,048</span>
+            </div>
+            <button class="checkout-btn">PROCEED TO CHECKOUT</button>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const nav = document.querySelector('nav');
+        
+        menuToggle.addEventListener('click', () => {
+            nav.classList.toggle('active');
+        });
+
+        // Quantity controls
+        document.querySelectorAll('.quantity-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const input = this.parentElement.querySelector('.quantity-input');
+                let value = parseInt(input.value);
+                
+                if (this.textContent === '+') {
+                    value++;
+                } else {
+                    value = value > 1 ? value - 1 : 1;
+                }
+                
+                input.value = value;
+                updateCartTotal();
+            });
+        });
+
+        // Quantity input validation
+        document.querySelectorAll('.quantity-input').forEach(input => {
+            input.addEventListener('change', function() {
+                if (this.value < 1) {
+                    this.value = 1;
+                }
+                updateCartTotal();
+            });
+        });
+        
+        // Remove items
+        document.querySelectorAll('.remove-item').forEach(item => {
+            item.addEventListener('click', function() {
+                this.closest('.cart-item').remove();
+                updateCartTotal();
+                checkEmptyCart();
+            });
+        });
+
+        // Update cart total
+        function updateCartTotal() {
+            // In a real implementation, you would calculate based on actual items
+            console.log('Cart total would be recalculated here');
+        }
+
+        // Check if cart is empty
+        function checkEmptyCart() {
+            const cartItems = document.querySelectorAll('.cart-item');
+            if (cartItems.length === 0) {
+                document.querySelector('.cart-items').innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-bag"></i>
+                        <h2>Your cart is empty</h2>
+                        <p>Looks like you haven't added anything to your cart yet</p>
+                        <a href="index.html"><button class="shop-now-btn">SHOP NOW</button></a>
+                    </div>
+                `;
+                document.querySelector('.cart-summary').style.display = 'none';
+            }
+        }
+
+        // Checkout button
+        document.querySelector('.checkout-btn').addEventListener('click', function() {
+            alert('Proceeding to checkout! In a real implementation, this would redirect to a checkout page.');
+        });
+    </script>
+</body>
+</html>
